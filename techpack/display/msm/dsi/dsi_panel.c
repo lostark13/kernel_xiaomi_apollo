@@ -2008,6 +2008,10 @@ const char *cmd_set_prop_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-dispparam-pen-120hz-command",
 	"qcom,mdss-dsi-dispparam-pen-60hz-command",
 	"qcom,mdss-dsi-dispparam-pen-30hz-command",
+        "qcom,mdss-dsi-dispparam-lcd-hbm-l1-on-command",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-l2-on-command",
+        "qcom,mdss-dsi-dispparam-lcd-hbm-l3-on-command",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-off-command",
 	/* xiaomi add end */
 };
 
@@ -2106,6 +2110,10 @@ const char *cmd_set_state_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-dispparam-pen-120hz-command-state",
 	"qcom,mdss-dsi-dispparam-pen-60hz-command-state",
 	"qcom,mdss-dsi-dispparam-pen-30hz-command-state",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-l1-on-command-state",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-l2-on-command-state",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-l3-on-command-state",
+	"qcom,mdss-dsi-dispparam-lcd-hbm-off-command-state",
 	/* xiaomi add end */
 };
 
@@ -4862,6 +4870,9 @@ int dsi_panel_enable(struct dsi_panel *panel)
 	mutex_unlock(&panel->panel_lock);
 	display_utc_time_marker("DSI_CMD_SET_ON");
 
+	if (panel->hbm_mode)
+		dsi_panel_apply_hbm_mode(panel);
+
 	return rc;
 }
 
@@ -5124,5 +5135,30 @@ int dsi_panel_post_unprepare(struct dsi_panel *panel)
 	}
 error:
 	mutex_unlock(&panel->panel_lock);
+	return rc;
+}
+
+int dsi_panel_apply_hbm_mode(struct dsi_panel *panel)
+{
+	static const enum dsi_cmd_set_type type_map[] = {
+		DSI_CMD_SET_DISP_LCD_HBM_OFF,
+		DSI_CMD_SET_DISP_LCD_HBM_L1_ON,
+		DSI_CMD_SET_DISP_LCD_HBM_L2_ON,
+		DSI_CMD_SET_DISP_LCD_HBM_L3_ON
+	};
+
+	enum dsi_cmd_set_type type;
+	int rc;
+
+	if (panel->hbm_mode >= 0 &&
+		panel->hbm_mode < ARRAY_SIZE(type_map))
+		type = type_map[panel->hbm_mode];
+	else
+		type = type_map[0];
+
+	mutex_lock(&panel->panel_lock);
+	rc = dsi_panel_tx_cmd_set(panel, type);
+	mutex_unlock(&panel->panel_lock);
+
 	return rc;
 }
