@@ -187,25 +187,25 @@
 				qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-displayoff-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-displayon-command-state = "dsi_hs_mode";
-				mi,mdss-dsi-lcd-hbm-l1-on-command = [
+				qcom,mdss-dsi-dispparam-lcd-hbm-l1-on-command = [
 						/* max brightness 80% */
 						15 01 00 00 00 00 02 FF 10
 						39 01 00 00 00 00 03 51 0C CC];
-				mi,mdss-dsi-lcd-hbm-l1-on-command-state = "dsi_lp_mode";
-				mi,mdss-dsi-lcd-hbm-l2-on-command = [
+				qcom,mdss-dsi-dispparam-lcd-hbm-l1-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-dispparam-lcd-hbm-l2-on-command = [
 						/* max brightness 85% */
 						15 01 00 00 00 00 02 FF 10
 						39 01 00 00 00 00 03 51 0D 98];
-				mi,mdss-dsi-lcd-hbm-l2-on-command-state = "dsi_lp_mode";
-				mi,mdss-dsi-lcd-hbm-l3-on-command = [
+				qcom,mdss-dsi-dispparam-lcd-hbm-l2-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-dispparam-lcd-hbm-l3-on-command = [
 						/* max brightness 91% */
 						15 01 00 00 00 00 02 FF 10
 						39 01 00 00 00 00 03 51 0E 8C];
-				mi,mdss-dsi-lcd-hbm-l3-on-command-state = "dsi_lp_mode";
-				mi,mdss-dsi-lcd-hbm-off-command = [
+				qcom,mdss-dsi-dispparam-lcd-hbm-l3-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-dispparam-lcd-hbm-off-command = [
 						15 01 00 00 00 00 02 FF 10
 						39 01 00 00 00 00 03 51 0B BB];
-				mi,mdss-dsi-lcd-hbm-off-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-dispparam-hbm-off-command-state = "dsi_lp_mode";
 
 				qcom,mdss-dsi-h-sync-pulse = <1>;
 				qcom,compression-mode = "dsc";
